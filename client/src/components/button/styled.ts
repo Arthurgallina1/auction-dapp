@@ -1,4 +1,4 @@
-import styled from "styled-components/macro";
+import styled from 'styled-components/macro'
 
 export const BaseButton = styled.button`
   font-size: 1.25rem;
@@ -6,7 +6,8 @@ export const BaseButton = styled.button`
   color: ${({ theme }) => theme.colors.white};
   background-color: ${({ theme }) => theme.colors.dodgerBlue};
   border-radius: 0.3rem;
-  border: none;
+  border: 1px solid ${({ theme }) => theme.colors.white};
   padding: 0.5rem 1rem;
   margin-bottom: 1rem;
-`;
+  cursor: pointer;
+`
