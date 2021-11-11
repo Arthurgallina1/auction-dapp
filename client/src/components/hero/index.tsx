@@ -11,7 +11,7 @@ export default function Hero() {
         <Button>123</Button>
       </S.LeftSide>
       <S.RightSide>
-        <S.HeroImage src='..' />
+        <S.HeroImage src='https://picsum.photos/200' />
       </S.RightSide>
     </S.HeroContainer>
   )

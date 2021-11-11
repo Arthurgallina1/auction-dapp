@@ -18,4 +18,5 @@ export const HeroHeading = styled.h1`
 export const HeroImage = styled.img`
   width: 300px;
   height: 350px;
+  border-radius: 10px;
 `
