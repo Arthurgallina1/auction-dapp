@@ -5,10 +5,10 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-bottom: 3rem;
   background-color: ${({ theme }) => theme.colors.cardsBg};
   max-width: 200px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 5px;
 `
 
 export const Image = styled.img`
@@ -16,5 +16,7 @@ export const Image = styled.img`
 `
 
 export const BottomInfo = styled.div`
+  padding: 0 2rem;
+  width: 100%;
   border-radius: 5px;
 `

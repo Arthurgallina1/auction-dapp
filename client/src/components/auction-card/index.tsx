@@ -2,15 +2,25 @@ import React from 'react'
 
 import * as S from './styled'
 
-export const Cards: React.FC = () => {
+type AuctionCardType = {
+  name: string
+  currentBid: number
+  user: string
+}
+
+export default function AuctionCard({
+  name,
+  currentBid,
+  user,
+}: AuctionCardType): JSX.Element {
   return (
     <S.Container>
       <S.Image src='https://picsum.photos/200/150' />
       <S.BottomInfo>
-        <h3>pinky ocean</h3>
-        <p>2.9 eth</p>
+        <h3>{name}</h3>
+        <p>{currentBid} eth</p>
 
-        <p>user</p>
+        <p>{user}</p>
       </S.BottomInfo>
     </S.Container>
   )
