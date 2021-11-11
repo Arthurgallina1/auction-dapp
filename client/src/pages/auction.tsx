@@ -3,6 +3,7 @@ import { AuctionState } from 'data/models'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import getWeb3 from 'services/web3'
+import Web3 from 'web3'
 import Auction from '../contracts/Auction.json'
 
 export default function AuctionPage() {
@@ -10,7 +11,8 @@ export default function AuctionPage() {
 
   const [auctionInstance, setAuctionInstance] = useState(null)
   const [auctionState, setAuctionState] = useState('')
-  const [account, setAccount] = useState('')
+  const [auctionBids, setAuctionBids] = useState([])
+  const [account, setAccount] = useState<any>([])
 
   useEffect(() => {
     const runWeb3 = async () => {
@@ -19,7 +21,11 @@ export default function AuctionPage() {
         const web3 = await getWeb3()
         // Use web3 to get the user's accounts.
         const accounts = await web3.eth.getAccounts()
-        setAccount(accounts[0])
+        // const account2 = await web3.eth.accounts.create()
+
+        // console.log(typeof account2.address)
+
+        setAccount([accounts[0], '0xDE61d31ed0Ed100c7Ac09712fEe1470aa2a17c44'])
         // Get the contract instance.
         const networkId = await web3.eth.net.getId()
         const deployedNetwork = Auction.networks[networkId]
@@ -30,10 +36,11 @@ export default function AuctionPage() {
         )
         setAuctionInstance(instance)
         const auctionState = await instance.methods.auctionState().call()
-        const owner = await instance.methods.owner().call()
+        const auctionBids = await instance.methods.getBids().call()
+        setAuctionBids(auctionBids)
+        // const owner = await instance.methods.owner().call()
         setAuctionState(AuctionState[auctionState])
 
-        console.log(owner)
         //      deployedNetwork && deployedNetwork.address,
       } catch (error) {
         // Catch any errors for any of the above operations.
@@ -68,9 +75,10 @@ export default function AuctionPage() {
 
   const placeBid = async () => {
     try {
+      console.debug('zcc', account[1])
       const amount = await auctionInstance.methods
         .placeBid()
-        .send({ from: account, value: 155 })
+        .send({ from: account[0], value: 2555 })
     } catch (err) {
       console.log(err)
     }
@@ -79,7 +87,7 @@ export default function AuctionPage() {
   const cancelAuction = async () => {
     const auctionState = await auctionInstance.methods
       .cancelAuction()
-      .send({ from: account })
+      .send({ from: account[0] })
     // console.log(auctionState)
   }
 
@@ -90,10 +98,15 @@ export default function AuctionPage() {
 
   return (
     <div>
-      Logged as {account}
+      Logged as {account[0]}
       <h3>Auction #{auction}</h3>
       Auction State: {auctionState}
-      <Button onClick={cancelAuction}>Place a bid</Button>
+      Bids:{' '}
+      {auctionBids.map((bid) => (
+        <p>{bid}</p>
+      ))}
+      <Button onClick={placeBid}>Place a bid</Button>
+      <Button onClick={cancelAuction}>Cancel Auction</Button>
       <Button onClick={getStatus}>Get status a bid</Button>
       {/* Auction Owner: {auctionowner} */}
     </div>

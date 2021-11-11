@@ -1,5 +1,15 @@
 // SPDX-License-Identifier: GPL-3.0
+
 pragma solidity >=0.7.0 <0.9.0;
+
+contract AuctionCreator {
+    Auction[] public auctions;
+
+    function createAuction() public {
+        Auction newAuction = new Auction(msg.sender);
+        auctions.push(newAuction);
+    }
+}
 
 contract Auction {
     address payable public owner;
@@ -19,12 +29,12 @@ contract Auction {
     uint256 public highestBindingBid;
     address payable public highestBidder;
 
+    uint256[] public bidsArray;
     mapping(address => uint256) public bids;
     uint256 bidIncrement;
 
     event AuctionStateChange(State auctionState);
 
-    //externally owned account
     constructor(address EOA) {
         owner = payable(EOA);
         auctionState = State.Running;
@@ -100,6 +110,10 @@ contract Auction {
         recipient.transfer(value);
     }
 
+    function getBids() public view returns (uint256[] memory) {
+        return bidsArray;
+    }
+
     function placeBid() public payable notOwner afterStart beforeEnd {
         require(auctionState == State.Running, "Auction not running");
         require(msg.value >= 100, "Value is not enough");
@@ -108,6 +122,7 @@ contract Auction {
         require(currentBid > highestBindingBid, "Bid not enough");
 
         bids[msg.sender] = currentBid;
+        bidsArray.push(currentBid);
 
         if (currentBid <= bids[highestBidder]) {
             // your own bid
