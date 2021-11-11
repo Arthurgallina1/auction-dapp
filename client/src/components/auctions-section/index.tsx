@@ -30,7 +30,7 @@ const auctionsCardsData = [
   },
 ]
 
-export default function Auctions() {
+export default function AuctionSection() {
   return (
     <S.Wrapper>
       <h1>Auctions!!</h1>

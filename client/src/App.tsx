@@ -1,15 +1,17 @@
-import { StyledThemeProvider } from "definitions/styled-components";
+import { StyledThemeProvider } from 'definitions/styled-components'
 
-import Home from "pages";
+import Routes from 'services/routes'
+import { Router } from 'react-router-dom'
+import history from 'services/history'
 
 function App(): JSX.Element {
   return (
     <StyledThemeProvider>
-      <div className="App">
-        <Home />
-      </div>
+      <Router history={history}>
+        <Routes />
+      </Router>
     </StyledThemeProvider>
-  );
+  )
 }
 
-export default App;
+export default App
