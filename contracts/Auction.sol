@@ -22,6 +22,8 @@ contract Auction {
     mapping(address => uint256) public bids;
     uint256 bidIncrement;
 
+    event AuctionStateChange(State auctionState);
+
     //externally owned account
     constructor(address EOA) {
         owner = payable(EOA);
@@ -62,6 +64,7 @@ contract Auction {
 
     function cancelAuction() public onlyOwner {
         auctionState = State.Canceled;
+        emit AuctionStateChange(auctionState);
     }
 
     function finalizeAuction() public {

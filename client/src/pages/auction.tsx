@@ -29,10 +29,10 @@ export default function AuctionPage() {
           deployedNetwork && deployedNetwork.address,
         )
         setAuctionInstance(instance)
-
         const auctionState = await instance.methods.auctionState().call()
         const owner = await instance.methods.owner().call()
         setAuctionState(AuctionState[auctionState])
+
         console.log(owner)
         //      deployedNetwork && deployedNetwork.address,
       } catch (error) {
@@ -46,6 +46,25 @@ export default function AuctionPage() {
 
     runWeb3()
   }, [])
+
+  useEffect(() => {
+    if (auctionInstance) {
+      auctionInstance.events
+        .AuctionStateChange({})
+        .on('data', function (event) {
+          console.log(event) // same results as the optional callback above
+          const { auctionState } = event.returnValues
+          console.debug('returned values', event.returnValues)
+          setAuctionState(AuctionState[auctionState])
+        })
+        .on('changed', function (event) {
+          console.debug('event changed', event)
+
+          // remove event from local database
+        })
+        .on('error', console.error)
+    }
+  }, [auctionInstance])
 
   const placeBid = async () => {
     try {
@@ -61,7 +80,7 @@ export default function AuctionPage() {
     const auctionState = await auctionInstance.methods
       .cancelAuction()
       .send({ from: account })
-    console.log(auctionState)
+    // console.log(auctionState)
   }
 
   const getStatus = async () => {
