@@ -34,6 +34,7 @@ contract Auction {
     uint256 bidIncrement;
 
     event AuctionStateChange(State auctionState);
+    event BidPlaced(uint value, address _address);
 
     constructor(address EOA) {
         owner = payable(EOA);
@@ -89,6 +90,8 @@ contract Auction {
             value = bids[msg.sender];
         } else {
             //ended
+            auctionState = State.Ended;
+            emit AuctionStateChange(auctionState);
             if (msg.sender == owner) {
                 recipient == owner;
                 value = highestBindingBid;
@@ -137,5 +140,7 @@ contract Auction {
             );
             highestBidder = payable(msg.sender);
         }
+
+        emit BidPlaced(currentBid, msg.sender);
     }
 }

@@ -71,6 +71,19 @@ export default function AuctionPage() {
           // remove event from local database
         })
         .on('error', console.error)
+
+      auctionInstance.events
+        .BidPlaced({})
+        .on('data', function (event) {
+          console.log(event) // same results as the optional callback above
+          const { value, _address } = event.returnValues
+          setAuctionBids((auctionBids) => [...auctionBids, value])
+        })
+        .on('changed', function (event) {
+          console.debug('event changed', event)
+          // remove event from local database
+        })
+        .on('error', console.error)
     }
   }, [auctionInstance])
 
