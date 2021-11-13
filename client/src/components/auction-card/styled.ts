@@ -15,7 +15,34 @@ export const Image = styled.img`
   border-radius: 5px 5px 0 0;
 `
 
+export const UserTitle = styled.a`
+  text-decoration: none;
+  color: ${({ theme }) => theme.colors.dodgerBlue};
+  font-size: 14px;
+  cursor: pointer;
+`
+
+export const Upperbox = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+export const Lowerbox = styled.div`
+  padding: 20px 0;
+  p {
+    margin: 0;
+  }
+`
+
+export const AuctionTitle = styled.h3`
+  font-size: 20px;
+  margin: 10px 0 3px 0;
+`
+
 export const BottomInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 0 2rem;
   width: 100%;
   border-radius: 5px;

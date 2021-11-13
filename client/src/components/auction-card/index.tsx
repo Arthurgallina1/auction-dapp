@@ -17,10 +17,15 @@ export default function AuctionCard({
     <S.Container>
       <S.Image src='https://picsum.photos/200/150' />
       <S.BottomInfo>
-        <h3>{name}</h3>
-        <p>{currentBid} eth</p>
-
-        <p>{user}</p>
+        <S.Upperbox>
+          <S.AuctionTitle>{name}</S.AuctionTitle>
+          <div>
+            <small>By</small> <S.UserTitle href='/'>{user}</S.UserTitle>
+          </div>
+        </S.Upperbox>
+        <S.Lowerbox>
+          ETH <strong>{currentBid}</strong>
+        </S.Lowerbox>
       </S.BottomInfo>
     </S.Container>
   )
