@@ -92,10 +92,11 @@ export default function AuctionPage() {
       console.debug('zcc', account[1])
       const amount = await auctionInstance.methods.placeBid().send({
         from: account[0],
-        value: 2555,
+        value: 555555,
       })
-    } catch (err) {
-      console.log(err)
+    } catch (e) {
+      const data = e.data
+      console.log(e)
     }
   }
 

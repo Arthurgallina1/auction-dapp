@@ -1,16 +1,16 @@
 import { render } from 'test'
 
-import { Cards } from './index'
+import AuctionCard from './index'
 
-describe('Cards component testing with testing-library', () => {
+describe('AuctionCard component testing with testing-library', () => {
   it('renders without crashing', () => {
-    const component = render(<Cards />)
+    const component = render(<AuctionCard />)
 
     expect(component).toBeTruthy()
   })
 
-  it('cards length must be equal to the length of the meta data ', () => {
-    const { getAllByTestId } = render(<Cards />)
+  it('AuctionCard length must be equal to the length of the meta data ', () => {
+    const { getAllByTestId } = render(<AuctionCard />)
 
     const cardContainer = getAllByTestId('container')
     expect(cardContainer).toHaveLength(0)

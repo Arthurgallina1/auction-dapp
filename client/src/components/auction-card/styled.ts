@@ -12,7 +12,7 @@ export const Container = styled.div`
 `
 
 export const Image = styled.img`
-  border-radius: 5px;
+  border-radius: 5px 5px 0 0;
 `
 
 export const BottomInfo = styled.div`
