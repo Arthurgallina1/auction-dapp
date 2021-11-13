@@ -21,6 +21,7 @@ export default function AuctionPage() {
         const web3 = await getWeb3()
         // Use web3 to get the user's accounts.
         const accounts = await web3.eth.getAccounts()
+        console.log(accounts)
         // const account2 = await web3.eth.accounts.create()
 
         // console.log(typeof account2.address)
@@ -76,9 +77,10 @@ export default function AuctionPage() {
   const placeBid = async () => {
     try {
       console.debug('zcc', account[1])
-      const amount = await auctionInstance.methods
-        .placeBid()
-        .send({ from: account[0], value: 2555 })
+      const amount = await auctionInstance.methods.placeBid().send({
+        from: account[0],
+        value: 2555,
+      })
     } catch (err) {
       console.log(err)
     }
