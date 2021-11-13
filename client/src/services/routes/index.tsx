@@ -8,7 +8,7 @@ export default function Routes() {
       <Route exact path='/'>
         <Home />
       </Route>
-      <Route path='/auctions/:auction'>
+      <Route path='/auction/:auction'>
         <AuctionPage />
       </Route>
     </Switch>
