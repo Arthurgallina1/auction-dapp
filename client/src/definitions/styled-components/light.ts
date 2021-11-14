@@ -1,19 +1,21 @@
 // #region Global Imports
-import { DefaultTheme } from "styled-components/macro";
+import { DefaultTheme } from 'styled-components/macro'
 // #endregion Global Imports
-import { common } from "./common";
+import { common } from './common'
 
 const light: DefaultTheme = {
+  ...common,
   colors: {
     ...common.colors,
-    toggleBorder: "#ABB7C4",
-    gradient: "linear-gradient(#39598A, #79D7ED)",
-    background: "#282C34",
-    headerBg: "#20232A",
-    cardsBg: "#FFFFFF",
-    textColor: "#000000",
-    dodgerBlue: "#007BFF",
+    toggleBorder: '#ABB7C4',
+    gradient: 'linear-gradient(#39598A, #79D7ED)',
+    background: '#282C34',
+    headerBg: '#20232A',
+    cardsBg: '#FFFFFF',
+    textColor: '#000000',
+    dodgerBlue: '#007BFF',
+    gray: '#E9E9E9',
   },
-};
+}
 
-export { light };
+export { light }

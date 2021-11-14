@@ -9,6 +9,10 @@ export const Container = styled.div`
   max-width: 200px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 5px;
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.gray};
+  }
+  cursor: pointer;
 `
 
 export const Image = styled.img`
@@ -36,7 +40,7 @@ export const Lowerbox = styled.div`
 
 export const AuctionTitle = styled.h3`
   font-size: 20px;
-  margin: 10px 0 3px 0;
+  margin: 12px 0 3px 0;
 `
 
 export const BottomInfo = styled.div`
