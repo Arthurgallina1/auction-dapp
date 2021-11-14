@@ -1,27 +1,49 @@
 import styled from 'styled-components/macro'
 
 export const Container = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: ${({ theme }) => theme.colors.cardsBg};
-  max-width: 200px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  max-width: 230px;
+  box-shadow: ${({ theme }) => theme.shadow.default};
   border-radius: 5px;
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.gray};
-  }
   cursor: pointer;
 `
 
+export const Badges = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  top: 15px;
+  left: 10px;
+`
+
 export const Image = styled.img`
-  border-radius: 5px 5px 0 0;
+  height: 185px;
+  width: 150px;
+
+  &:hover {
+    transition: scale ${({ theme }) => theme.transition.default};
+    scale: 1.05;
+  }
+`
+
+export const UpperInfo = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 230px;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
+  width: 100%;
 `
 
 export const UserTitle = styled.a`
   text-decoration: none;
-  color: ${({ theme }) => theme.colors.dodgerBlue};
+  color: ${({ theme }) => theme.colors.primary};
   font-size: 14px;
   cursor: pointer;
 `
@@ -32,13 +54,21 @@ export const Upperbox = styled.div`
 `
 
 export const Lowerbox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 20px 0;
   p {
     margin: 0;
   }
+
+  span {
+    color: ${({ theme }) => theme.colors.grey};
+  }
 `
 
 export const AuctionTitle = styled.h3`
+  color: ${({ theme }) => theme.colors.black};
   font-size: 20px;
   margin: 12px 0 3px 0;
 `

@@ -11,6 +11,7 @@ const common: BaseTheme = {
     primary: '#0543ec',
     secondary: '#3CD3C1',
     black: '#242424',
+    grey: '#6F6F6F',
   },
   font: {
     family:
