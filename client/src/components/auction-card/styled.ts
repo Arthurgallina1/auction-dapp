@@ -17,9 +17,11 @@ export const Badges = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
   top: 15px;
   left: 10px;
+`
+export const BadgeContainer = styled.div`
+  margin-bottom: 8px;
 `
 
 export const Image = styled.img`

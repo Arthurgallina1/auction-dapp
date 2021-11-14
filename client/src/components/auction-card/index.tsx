@@ -1,3 +1,6 @@
+import Badge from 'components/badge'
+import { RiAuctionFill } from 'react-icons/ri'
+import { AiOutlineHeart } from 'react-icons/ai'
 import { AuctionStateEnum } from 'data/models'
 import * as S from './styled'
 
@@ -19,9 +22,13 @@ export default function AuctionCard({
     <S.Container>
       <S.UpperInfo>
         <S.Badges>
-          <span>1</span>
-          <span>2</span>
-          <span>3</span>
+          <S.BadgeContainer>
+            <Badge icon={<RiAuctionFill color='white' />} onClick={() => {}} />
+          </S.BadgeContainer>
+          <S.BadgeContainer>
+            <Badge icon={<AiOutlineHeart color='white' />} onClick={() => {}} />
+          </S.BadgeContainer>
+          {/* <Badge icon={<RiAuctionFill color='white' />} onClick={() => {}} /> */}
         </S.Badges>
         <S.Image src='https://picsum.photos/200/150' />
       </S.UpperInfo>
