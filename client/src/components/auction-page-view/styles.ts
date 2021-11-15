@@ -29,3 +29,7 @@ export const RightSide = styled.div`
 `
 
 export const TitleBox = styled.div``
+
+export const OfferWrapper = styled.div`
+  margin-top: 30px;
+`

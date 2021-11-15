@@ -1,17 +1,16 @@
 import { Button } from 'components'
 import AuctionPageView from 'components/auction-page-view'
-import { AuctionState } from 'data/models'
+import { AuctionState, AuctionStateEnum } from 'data/models'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import getWeb3 from 'services/web3'
-import Web3 from 'web3'
 import Auction from '../contracts/Auction.json'
 
 export default function AuctionPage() {
   const { auction } = useParams()
 
   const [auctionInstance, setAuctionInstance] = useState(null)
-  const [auctionState, setAuctionState] = useState('')
+  const [auctionState, setAuctionState] = useState<AuctionStateEnum>()
   const [auctionBids, setAuctionBids] = useState([])
   const [account, setAccount] = useState<any>([])
 
@@ -102,10 +101,7 @@ export default function AuctionPage() {
   }
 
   const cancelAuction = async () => {
-    const auctionState = await auctionInstance.methods
-      .cancelAuction()
-      .send({ from: account[0] })
-    // console.log(auctionState)
+    await auctionInstance.methods.cancelAuction().send({ from: account[0] })
   }
 
   const getStatus = async () => {
@@ -115,18 +111,15 @@ export default function AuctionPage() {
 
   return (
     <div>
-      <AuctionPageView />
+      <AuctionPageView
+        name={auction}
+        auctionState={auctionState}
+        bids={auctionBids}
+      />
       Logged as {account[0]}
-      <h3>Auction #{auction}</h3>
-      Auction State: {auctionState}
-      Bids:{' '}
-      {auctionBids.map((bid) => (
-        <p>{bid}</p>
-      ))}
       <Button onClick={placeBid}>Place a bid</Button>
       <Button onClick={cancelAuction}>Cancel Auction</Button>
       <Button onClick={getStatus}>Get status a bid</Button>
-      {/* Auction Owner: {auctionowner} */}
     </div>
   )
 }

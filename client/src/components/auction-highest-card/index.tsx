@@ -1,4 +1,5 @@
 import { Button } from 'components'
+import EthSVG from 'components/svgs/eth'
 import * as S from './styles'
 
 export default function HighestOfferCard() {
@@ -6,7 +7,7 @@ export default function HighestOfferCard() {
     <S.Container>
       <h3>Highest offer</h3>
       <S.PriceBox>
-        ETH <strong>0.6</strong>
+        <EthSVG /> <strong>0.6</strong> ETH
       </S.PriceBox>
       <Button>Place Bid</Button>
     </S.Container>
