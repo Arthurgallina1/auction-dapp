@@ -11,3 +11,10 @@ export const AuctionState = {
   2: 'Ended',
   3: 'Canceled',
 }
+
+export type ContractFunctionType = {
+  call: () => void
+  sendTransaction: () => void
+  estimateGas: () => void
+  request: () => void
+}

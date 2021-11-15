@@ -1,10 +1,19 @@
 import { Button } from 'components'
 import AuctionPageView from 'components/auction-page-view'
+import { useWeb3 } from 'context/web3.context'
 import { AuctionState, AuctionStateEnum } from 'data/models'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import getWeb3 from 'services/web3'
 import Auction from '../contracts/Auction.json'
+
+// type AuctionInstaceType = {
+//   methods: {
+//     auctionState: ContractFunctionType
+//     placeBid: ContractFunctionType
+//     cancelAuction: ContractFunctionType
+//   }
+//   events: any
+// }
 
 export default function AuctionPage() {
   const { auction } = useParams()
@@ -12,35 +21,28 @@ export default function AuctionPage() {
   const [auctionInstance, setAuctionInstance] = useState(null)
   const [auctionState, setAuctionState] = useState<AuctionStateEnum>()
   const [auctionBids, setAuctionBids] = useState([])
-  const [account, setAccount] = useState<any>([])
+  // const [account, setAccount] = useState<any>([])
+  const { account, web3 } = useWeb3()
 
   useEffect(() => {
     const runWeb3 = async () => {
       try {
-        // Get network provider and web3 instance.
-        const web3 = await getWeb3()
-        // Use web3 to get the user's accounts.
-        const accounts = await web3.eth.getAccounts()
-        console.log(accounts)
-        // const account2 = await web3.eth.accounts.create()
-
-        // console.log(typeof account2.address)
-
-        setAccount([accounts[0], '0xDE61d31ed0Ed100c7Ac09712fEe1470aa2a17c44'])
-        // Get the contract instance.
-        const networkId = await web3.eth.net.getId()
-        const deployedNetwork = Auction.networks[networkId]
-        console.log(networkId, deployedNetwork)
-        const instance = new web3.eth.Contract(
-          Auction.abi,
-          deployedNetwork && deployedNetwork.address,
-        )
-        setAuctionInstance(instance)
-        const auctionState = await instance.methods.auctionState().call()
-        const auctionBids = await instance.methods.getBids().call()
-        setAuctionBids(auctionBids)
-        // const owner = await instance.methods.owner().call()
-        setAuctionState(AuctionState[auctionState])
+        if (web3 && account) {
+          // Get the contract instance.
+          const networkId = await web3.eth.net.getId()
+          const deployedNetwork = Auction.networks[networkId]
+          console.log(networkId, deployedNetwork)
+          const instance = new web3.eth.Contract(
+            Auction.abi,
+            deployedNetwork && deployedNetwork.address,
+          )
+          setAuctionInstance(instance)
+          const auctionState = await instance.methods.auctionState().call()
+          const auctionBids = await instance.methods.getBids().call()
+          setAuctionBids(auctionBids)
+          // const owner = await instance.methods.owner().call()
+          setAuctionState(AuctionState[auctionState])
+        }
 
         //      deployedNetwork && deployedNetwork.address,
       } catch (error) {
@@ -53,7 +55,7 @@ export default function AuctionPage() {
     }
 
     runWeb3()
-  }, [])
+  }, [web3, account])
 
   useEffect(() => {
     if (auctionInstance) {
@@ -89,9 +91,9 @@ export default function AuctionPage() {
 
   const placeBid = async () => {
     try {
-      console.debug('zcc', account[1])
-      const amount = await auctionInstance.methods.placeBid().send({
-        from: account[0],
+      console.debug('zcc', account)
+      await auctionInstance.methods.placeBid().send({
+        from: account,
         value: 555555,
       })
     } catch (e) {
@@ -115,11 +117,11 @@ export default function AuctionPage() {
         name={auction}
         auctionState={auctionState}
         bids={auctionBids}
+        placeBid={placeBid}
       />
-      Logged as {account[0]}
-      <Button onClick={placeBid}>Place a bid</Button>
+      {/* <Button onClick={placeBid}>Place a bid</Button> */}
       <Button onClick={cancelAuction}>Cancel Auction</Button>
-      <Button onClick={getStatus}>Get status a bid</Button>
+      {/* <Button onClick={getStatus}>Get status a bid</Button> */}
     </div>
   )
 }

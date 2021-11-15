@@ -4,7 +4,9 @@ export const Wrapper = styled.div`
   padding: 20px;
   display: flex;
 `
-export const AuctionImage = styled.img``
+export const AuctionImage = styled.img`
+  margin-top: 25px;
+`
 
 export const TitleWrapper = styled.div`
   display: flex;
@@ -19,7 +21,8 @@ export const Subtitle = styled.h5`
 export const LeftSide = styled.div`
   padding: 10px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  flex-direction: column;
   align-items: center;
   width: 300px;
 `
