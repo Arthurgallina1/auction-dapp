@@ -17,7 +17,7 @@ export const Badges = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
-  top: 15px;
+  top: 20px;
   left: 10px;
   z-index: 10;
 `

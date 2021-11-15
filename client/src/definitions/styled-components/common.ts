@@ -9,7 +9,7 @@ const common: BaseTheme = {
     blackGrey: '#20232A',
     white: '#FFFFFF',
     primary: '#0543ec',
-    secondary: '#3CD3C1',
+    secondary: '##F7C42D',
     black: '#242424',
     grey: '#6F6F6F',
   },

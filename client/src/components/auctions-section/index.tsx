@@ -1,6 +1,7 @@
 import AuctionCard from 'components/auction-card'
 import * as S from './styles'
 import { AuctionStateEnum } from 'data/models'
+import AuctionSVG from 'components/svgs/auction-subtitle'
 
 const auctionsCardsData = [
   {
@@ -38,7 +39,10 @@ const auctionsCardsData = [
 export default function AuctionSection() {
   return (
     <S.Wrapper>
-      <S.SectionTitle>Auctions!!</S.SectionTitle>
+      <S.TitleWrapper>
+        <S.SectionTitle>Live Auctions</S.SectionTitle>
+        <AuctionSVG />
+      </S.TitleWrapper>
       <S.AuctionGrid style={{ marginBottom: 80 }}>
         {auctionsCardsData.map((auctionCard) => (
           <AuctionCard

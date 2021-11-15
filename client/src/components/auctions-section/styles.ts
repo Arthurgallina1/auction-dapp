@@ -22,3 +22,8 @@ export const SectionTitle = styled.h2`
   margin-bottom: 0;
   color: ${({ theme }) => theme.colors.black};
 `
+
+export const TitleWrapper = styled.div`
+  margin-bottom: 40px;
+  margin-top: 50px;
+`

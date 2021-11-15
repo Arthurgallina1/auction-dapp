@@ -1,4 +1,5 @@
 import Badge from 'components/badge'
+import { useHistory } from 'react-router-dom'
 import { RiAuctionFill } from 'react-icons/ri'
 import { AiOutlineHeart } from 'react-icons/ai'
 import { AuctionStateEnum } from 'data/models'
@@ -17,9 +18,14 @@ export default function AuctionCard({
   user,
   status = AuctionStateEnum.Canceled,
 }: AuctionCardType): JSX.Element {
+  const history = useHistory()
   const showAuctionState = status === AuctionStateEnum.Canceled
+  const onCardClick = () => {
+    history.push(`/auction/${name}`)
+  }
+
   return (
-    <S.Container>
+    <S.Container onClick={onCardClick}>
       <S.UpperInfo>
         <S.Badges>
           <S.BadgeContainer>
