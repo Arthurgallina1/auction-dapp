@@ -12,3 +12,13 @@ export const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
 `
+
+export const SectionTitle = styled.h2`
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 34px;
+  line-height: 1.2;
+  margin-bottom: 0;
+  color: ${({ theme }) => theme.colors.black};
+`

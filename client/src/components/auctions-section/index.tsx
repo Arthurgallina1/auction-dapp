@@ -1,4 +1,3 @@
-import React from 'react'
 import AuctionCard from 'components/auction-card'
 import * as S from './styles'
 import { AuctionStateEnum } from 'data/models'
@@ -39,7 +38,7 @@ const auctionsCardsData = [
 export default function AuctionSection() {
   return (
     <S.Wrapper>
-      <h1>Auctions!!</h1>
+      <S.SectionTitle>Auctions!!</S.SectionTitle>
       <S.AuctionGrid style={{ marginBottom: 80 }}>
         {auctionsCardsData.map((auctionCard) => (
           <AuctionCard

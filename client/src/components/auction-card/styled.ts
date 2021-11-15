@@ -7,7 +7,7 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   background-color: ${({ theme }) => theme.colors.cardsBg};
-  max-width: 230px;
+  width: 275px;
   box-shadow: ${({ theme }) => theme.shadow.default};
   border-radius: 5px;
   cursor: pointer;
@@ -19,14 +19,15 @@ export const Badges = styled.div`
   flex-direction: column;
   top: 15px;
   left: 10px;
+  z-index: 10;
 `
 export const BadgeContainer = styled.div`
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 `
 
 export const Image = styled.img`
   height: 185px;
-  width: 150px;
+  width: 170px;
 
   &:hover {
     transition: scale ${({ theme }) => theme.transition.default};
@@ -72,7 +73,7 @@ export const Lowerbox = styled.div`
 export const AuctionTitle = styled.h3`
   color: ${({ theme }) => theme.colors.black};
   font-size: 20px;
-  margin: 12px 0 3px 0;
+  margin: 16px 0 3px 0;
 `
 
 export const BottomInfo = styled.div`

@@ -26,7 +26,11 @@ export default function AuctionCard({
             <Badge icon={<RiAuctionFill color='white' />} onClick={() => {}} />
           </S.BadgeContainer>
           <S.BadgeContainer>
-            <Badge icon={<AiOutlineHeart color='white' />} onClick={() => {}} />
+            <Badge
+              color='white'
+              icon={<AiOutlineHeart color='blue' />}
+              onClick={() => {}}
+            />
           </S.BadgeContainer>
           {/* <Badge icon={<RiAuctionFill color='white' />} onClick={() => {}} /> */}
         </S.Badges>

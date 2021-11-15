@@ -1,10 +1,11 @@
 import styled from 'styled-components'
 
-export const Container = styled.div`
+export const Container = styled.div<{ color: string }>`
   border-radius: 50%;
   width: 32px;
   height: 32px;
-  background: ${({ theme }) => theme.colors.primary};
+  background: ${({ theme, color }) =>
+    color === 'blue' ? theme.colors.primary : 'white'};
   display: flex;
   justify-content: center;
   align-items: center;
