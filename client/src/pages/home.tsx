@@ -7,7 +7,7 @@ import Auctions from 'components/auctions-section'
 const Home: React.FC = () => {
   return (
     <Wrapper>
-      <Header />
+      {/* <Header /> */}
       <Hero />
       <Auctions />
     </Wrapper>

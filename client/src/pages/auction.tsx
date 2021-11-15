@@ -1,4 +1,5 @@
 import { Button } from 'components'
+import AuctionPageView from 'components/auction-page-view'
 import { AuctionState } from 'data/models'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -114,6 +115,7 @@ export default function AuctionPage() {
 
   return (
     <div>
+      <AuctionPageView />
       Logged as {account[0]}
       <h3>Auction #{auction}</h3>
       Auction State: {auctionState}
