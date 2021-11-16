@@ -5,6 +5,10 @@ import './Auction.sol';
 
 contract AuctionCreator {
     Auction[] public auctions;
+    
+    function getAuctions() external view returns(Auction[] memory) {
+        return auctions;
+    }
 
     function createAuction() public {
         Auction newAuction = new Auction(msg.sender);
