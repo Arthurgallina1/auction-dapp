@@ -20,11 +20,10 @@ export default function AuctionPage() {
         if (web3 && account && auctionContract) {
           // const auctionState = await auctionContract.methods.auctionState().call()
           const auctionBids = await auctionContract.methods.getBids().call()
-          const auctionState = await auctionContract.methods
-            .auctionState()
-            .call()
+          const auctionState = await getAuctionState()
+          console.log(auctionState)
           setAuctionBids(auctionBids)
-          setAuctionState(AuctionState[auctionState])
+          setAuctionState(auctionState)
         }
 
         //      deployedNetwork && deployedNetwork.address,

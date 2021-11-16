@@ -3,15 +3,16 @@ import { useWeb3 } from '../context/web3.context'
 import Auction from '../contracts/Auction.json'
 import { AuctionState, AuctionStateEnum } from 'data/models'
 
+// TO DO: Move all fetching to contract and expose the state only
 export default function useAuctionContract() {
   const { account, web3 } = useWeb3()
   const [auctionContract, setAuctionContract] = useState(null)
 
+  // const [auctionStateChangeEvent, setAuctionStateChangeEvent] = useState()
+
   const getAuctionState = async (): Promise<AuctionStateEnum> => {
     if (!auctionContract) return
-
     const auctionState = await auctionContract.methods.auctionState().call()
-    console.log(AuctionState[auctionState])
     return AuctionState[auctionState]
   }
 

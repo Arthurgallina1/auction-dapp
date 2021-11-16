@@ -8,7 +8,7 @@ export default function Hero() {
         <S.LeftSide>
           <S.HeroHeading>Discover the best auctions</S.HeroHeading>
           <S.Subtitle>Explore, create and bid on auctions.</S.Subtitle>
-          <Button>123</Button>
+          <Button>Start Auction</Button>
         </S.LeftSide>
         <S.RightSide>
           <S.HeroImage src='https://picsum.photos/200' />

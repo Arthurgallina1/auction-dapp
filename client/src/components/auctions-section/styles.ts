@@ -5,6 +5,14 @@ export const AuctionGrid = styled.div`
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 30px;
   grid-row-gap: 45px;
+
+  @media screen and (max-width: 950px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (max-width: 600px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `
 
 export const Wrapper = styled.div`
