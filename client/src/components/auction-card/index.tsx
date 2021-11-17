@@ -10,6 +10,7 @@ type AuctionCardType = {
   currentBid: number
   user: string
   status: AuctionStateEnum
+  address: string
 }
 
 export default function AuctionCard({
@@ -17,11 +18,12 @@ export default function AuctionCard({
   currentBid,
   user,
   status = AuctionStateEnum.Canceled,
+  address,
 }: AuctionCardType): JSX.Element {
   const history = useHistory()
   const showAuctionState = status === AuctionStateEnum.Canceled
   const onCardClick = () => {
-    history.push(`/auction/${name}`)
+    history.push(`/auction/${address}`)
   }
 
   return (
@@ -47,7 +49,7 @@ export default function AuctionCard({
         <S.Upperbox>
           <S.AuctionTitle>{name}</S.AuctionTitle>
           <div>
-            <small>By</small> <S.UserTitle href='/'>{user}</S.UserTitle>
+            <small>By</small> <S.UserTitle href='/'>{address}</S.UserTitle>
           </div>
         </S.Upperbox>
         <S.Lowerbox>

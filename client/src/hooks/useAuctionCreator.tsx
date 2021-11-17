@@ -16,11 +16,18 @@ export default function useAuctionCreator() {
     return auctionCreated
   }
 
-  const getAuctions = async () => {
-    if (!auctionCreatorInstance) return
-    const auctions = await auctionCreatorInstance.methods.auctions().call()
-    return auctions
-  }
+  useEffect(() => {
+    const getAuctions = async () => {
+      console.log('before return')
+      if (!auctionCreatorInstance) return []
+      console.log('past return')
+      const auctions = await auctionCreatorInstance.methods.getAuctions().call()
+      setAuctions(auctions)
+      return auctions
+    }
+
+    getAuctions()
+  }, [auctionCreatorInstance])
 
   useEffect(() => {
     const runWeb3 = async () => {
@@ -33,6 +40,7 @@ export default function useAuctionCreator() {
             AuctionCreator.abi,
             deployedNetwork && deployedNetwork.address,
           )
+          console.log('setado')
           setAuctionCreatorInstance(instance)
         }
       } catch (error) {
@@ -46,5 +54,5 @@ export default function useAuctionCreator() {
     runWeb3()
   }, [web3, account])
 
-  return { auctionCreatorInstance, createAuction, getAuctions }
+  return { auctionCreatorInstance, auctions, createAuction }
 }

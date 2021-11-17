@@ -2,6 +2,8 @@ import AuctionCard from 'components/auction-card'
 import * as S from './styles'
 import { AuctionStateEnum } from 'data/models'
 import AuctionSVG from 'components/svgs/auction-subtitle'
+import useAuctionCreator from 'hooks/useAuctionCreator'
+import { useEffect, useState } from 'react'
 
 const auctionsCardsData = [
   {
@@ -37,6 +39,24 @@ const auctionsCardsData = [
 ]
 
 export default function AuctionSection() {
+  // const [auctions, setAuctions] = useState([])
+  const { auctions } = useAuctionCreator()
+  console.log(auctions)
+
+  // useEffect(() => {
+  //   const fetchAuctions = async () => {
+  //     const acts = await getAuctions()
+  //     console.log('acts', acts)
+  //     const auctionsWithAddress = acts?.map((auction) => ({
+  //       address: auction,
+  //       ...auctionsCardsData[0],
+  //     }))
+  //     // setAuctions(auctionsWithAddress)
+  //     console.log('o123', auctionsWithAddress)
+  //   }
+  //   fetchAuctions()
+  // }, [])
+
   return (
     <S.Wrapper>
       <S.TitleWrapper>
@@ -44,12 +64,14 @@ export default function AuctionSection() {
         <AuctionSVG />
       </S.TitleWrapper>
       <S.AuctionGrid style={{ marginBottom: 80 }}>
-        {auctionsCardsData.map((auctionCard) => (
+        {auctions.map((auctionCard) => (
           <AuctionCard
+            key={auctionCard?.address}
             name={auctionCard.name}
             currentBid={auctionCard.currentBid}
             user={auctionCard.user}
             status={auctionCard.status}
+            address={auctionCard?.address}
           />
         ))}
       </S.AuctionGrid>
