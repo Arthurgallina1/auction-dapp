@@ -39,23 +39,18 @@ const auctionsCardsData = [
 ]
 
 export default function AuctionSection() {
-  // const [auctions, setAuctions] = useState([])
+  const [formattedAuctions, setFormattedAuctions] = useState([])
   const { auctions } = useAuctionCreator()
   console.log(auctions)
 
-  // useEffect(() => {
-  //   const fetchAuctions = async () => {
-  //     const acts = await getAuctions()
-  //     console.log('acts', acts)
-  //     const auctionsWithAddress = acts?.map((auction) => ({
-  //       address: auction,
-  //       ...auctionsCardsData[0],
-  //     }))
-  //     // setAuctions(auctionsWithAddress)
-  //     console.log('o123', auctionsWithAddress)
-  //   }
-  //   fetchAuctions()
-  // }, [])
+  useEffect(() => {
+    const auctionsWithAddress = auctions?.map((auction) => ({
+      address: auction,
+      ...auctionsCardsData[0],
+    }))
+    setFormattedAuctions(auctionsWithAddress)
+    console.log('o123', auctionsWithAddress)
+  }, [auctions])
 
   return (
     <S.Wrapper>
@@ -64,7 +59,7 @@ export default function AuctionSection() {
         <AuctionSVG />
       </S.TitleWrapper>
       <S.AuctionGrid style={{ marginBottom: 80 }}>
-        {auctions.map((auctionCard) => (
+        {formattedAuctions.map((auctionCard) => (
           <AuctionCard
             key={auctionCard?.address}
             name={auctionCard.name}

@@ -4,10 +4,10 @@ import Auction from '../contracts/Auction.json'
 import { AuctionState, AuctionStateEnum } from 'data/models'
 
 // TO DO: Move all fetching to contract and expose the state only
-export default function useAuctionContract() {
+export default function useAuctionContract(address) {
   const { account, web3 } = useWeb3()
   const [auctionContract, setAuctionContract] = useState(null)
-
+  console.log('auction', address)
   // const [auctionStateChangeEvent, setAuctionStateChangeEvent] = useState()
 
   const getAuctionState = async (): Promise<AuctionStateEnum> => {
@@ -21,11 +21,9 @@ export default function useAuctionContract() {
       try {
         if (web3 && account) {
           // Get the contract instance.
-          const networkId = await web3.eth.net.getId()
-          const deployedNetwork = Auction.networks[networkId]
           const instance = new web3.eth.Contract(
             Auction.abi,
-            deployedNetwork && deployedNetwork.address,
+            address, //deployedNetwork && deployedNetwork.address,
           )
           setAuctionContract(instance)
         }

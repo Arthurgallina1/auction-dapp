@@ -9,7 +9,7 @@ import { AuctionState, AuctionStateEnum } from 'data/models'
 export default function AuctionPage() {
   const { auction } = useParams()
   const { account, web3 } = useWeb3()
-  const { auctionContract, getAuctionState } = useAuctionContract()
+  const { auctionContract, getAuctionState } = useAuctionContract(auction)
 
   const [auctionState, setAuctionState] = useState<AuctionStateEnum>()
   const [auctionBids, setAuctionBids] = useState([])

@@ -12,15 +12,12 @@ export default function useAuctionCreator() {
     const auctionCreated = await auctionCreatorInstance.methods
       .createAuction()
       .send({ from: account })
-    console.log(auctionCreated)
     return auctionCreated
   }
 
   useEffect(() => {
     const getAuctions = async () => {
-      console.log('before return')
       if (!auctionCreatorInstance) return []
-      console.log('past return')
       const auctions = await auctionCreatorInstance.methods.getAuctions().call()
       setAuctions(auctions)
       return auctions
@@ -33,7 +30,6 @@ export default function useAuctionCreator() {
     const runWeb3 = async () => {
       try {
         if (web3 && account) {
-          // Get the contract instance.
           const networkId = await web3.eth.net.getId()
           const deployedNetwork = AuctionCreator.networks[networkId]
           const instance = new web3.eth.Contract(
