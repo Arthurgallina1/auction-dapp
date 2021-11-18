@@ -2,12 +2,13 @@ import { Container } from '../auction-highest-card/styles'
 
 type OffersType = {
   bids: any
+  addressLastBid: string
 }
 
-export default function Offers({ bids = [] }: OffersType) {
+export default function Offers({ bids = [], addressLastBid }: OffersType) {
   return (
     <Container>
-      <h3>Offers</h3>
+      <h3>Offers - Your {addressLastBid} </h3>
       <table>
         <thead>
           <tr>

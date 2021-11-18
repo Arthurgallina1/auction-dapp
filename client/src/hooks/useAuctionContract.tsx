@@ -12,13 +12,41 @@ export default function useAuctionContract(auctionAddress) {
   const [auctionOwner, setAuctionOwner] = useState<string>('')
   const [auctionState, setAuctionState] = useState<AuctionStateEnum>()
   const [auctionBids, setAuctionBids] = useState<number[]>([])
+  const [addressLastBid, setAddressLastBid] = useState<string>('0')
 
   // const [auctionBlocks, setAuctionBlocks] = useState(0)
 
-  // const [auctionStateChangeEvent, setAuctionStateChangeEvent] = useState()
-
   const cancelAuction = async () => {
-    await auctionContract.methods.cancelAuction().send({ from: account })
+    try {
+      await auctionContract.methods.cancelAuction().send({ from: account })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const placeBid = async (value = 350) => {
+    try {
+      await auctionContract.methods.placeBid().send({
+        from: account,
+        value: value,
+      })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const finalizeAuction = async () => {
+    try {
+      // if (auctionState !== AuctionStateEnum.Canceled) return
+      // if (addressLastBid === '0') return
+
+      const addressBid = await auctionContract.methods.finalizeAuction().send({
+        from: account,
+      })
+      return addressBid
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   useEffect(() => {
@@ -60,6 +88,9 @@ export default function useAuctionContract(auctionAddress) {
       const auctionBids = await auctionContract.methods.getBids().call()
       setAuctionBids(auctionBids)
 
+      const addressBid = await auctionContract.methods.bids(account).call()
+      setAddressLastBid(addressBid)
+
       const auctionStartBlock = await auctionContract.methods
         .startBlock()
         .call()
@@ -100,6 +131,18 @@ export default function useAuctionContract(auctionAddress) {
         // remove event from local database
       })
       .on('error', console.error)
+
+    auctionContract.events
+      .AuctionFinalized({})
+      .on('data', function (event) {
+        const { value, _address } = event.returnValues
+        console.log('auction finalized', { value, _address })
+      })
+      .on('changed', function (event) {
+        console.debug('event changed', event)
+        // remove event from local database
+      })
+      .on('error', console.error)
   }, [auctionContract])
 
   useEffect(() => {
@@ -112,6 +155,9 @@ export default function useAuctionContract(auctionAddress) {
     auctionHighestBid,
     auctionState,
     auctionBids,
+    addressLastBid,
     cancelAuction,
+    placeBid,
+    finalizeAuction,
   }
 }

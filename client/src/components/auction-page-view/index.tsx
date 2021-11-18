@@ -7,18 +7,20 @@ import * as S from './styles'
 type AuctionPageViewType = {
   bids: any
   auctionState: AuctionStateEnum
-  name: string
+  address: string
   auctionHighestBid: string
   isUserOwner: boolean
+  addressLastBid: string
   placeBid: (amount: number) => void
 }
 
 export default function AuctionPageView({
   bids,
   auctionState,
-  name,
+  address,
   auctionHighestBid,
   isUserOwner,
+  addressLastBid,
   placeBid,
 }: AuctionPageViewType) {
   const history = useHistory()
@@ -34,7 +36,7 @@ export default function AuctionPageView({
       <S.RightSide>
         <S.TitleBox>
           <S.TitleWrapper>
-            <h3>Auction {name}</h3>
+            <h3>Auction {address}</h3>
             <h5>State {auctionState}</h5>
           </S.TitleWrapper>
           <S.Subtitle>First day 25/05</S.Subtitle>
@@ -48,7 +50,7 @@ export default function AuctionPageView({
           />
         </S.OfferWrapper>
         <S.OfferWrapper>
-          <Offers bids={bids} />
+          <Offers bids={bids} addressLastBid={addressLastBid} />
         </S.OfferWrapper>
       </S.RightSide>
     </S.Wrapper>

@@ -26,12 +26,13 @@ contract Auction {
 
     event AuctionStateChange(State auctionState);
     event BidPlaced(uint256 value, address _address);
+    event AuctionFinalized(uint256 value, address _address);
 
     constructor(address EOA) {
         owner = payable(EOA);
         auctionState = State.Running;
         startBlock = block.number;
-        endBlock = startBlock + 10;
+        endBlock = startBlock + 3;
         ipfsHash = "";
         bidIncrement = 1000000000000000000;
     }
@@ -84,7 +85,7 @@ contract Auction {
             auctionState = State.Ended;
             emit AuctionStateChange(auctionState);
             if (msg.sender == owner) {
-                recipient == owner;
+                recipient == msg.sender;
                 value = highestBindingBid;
             } else {
                 if (msg.sender == highestBidder) {
@@ -92,7 +93,7 @@ contract Auction {
                     recipient = highestBidder;
                     value = bids[highestBidder] - highestBindingBid;
                 } else {
-                    // other bidders
+                    // other bidder took it
                     recipient = payable(msg.sender);
                     value = bids[msg.sender];
                 }
@@ -100,8 +101,8 @@ contract Auction {
         }
 
         bids[recipient] = 0; //reset bids of recipient so next time he calls he won't be a bidder anymore
-
         recipient.transfer(value);
+        emit AuctionFinalized(value, recipient);
     }
 
     function getBids() public view returns (uint256[] memory) {
