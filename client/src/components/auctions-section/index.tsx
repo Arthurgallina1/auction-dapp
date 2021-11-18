@@ -36,10 +36,10 @@ export default function AuctionSection() {
         {formattedAuctions.map((auctionCard) => (
           <AuctionCard
             key={auctionCard?.address}
-            name={auctionCard.name}
-            currentBid={auctionCard.currentBid}
-            user={auctionCard.user}
-            status={auctionCard.status}
+            // name={auctionCard.name}
+            // currentBid={auctionCard.currentBid}
+            // user={auctionCard.user}
+            // status={auctionCard.status}
             address={auctionCard?.address}
           />
         ))}

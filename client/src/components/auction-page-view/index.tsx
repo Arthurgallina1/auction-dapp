@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router-dom'
 import HighestOfferCard from 'components/auction-highest-card'
 import Offers from 'components/offers'
 import { AuctionStateEnum } from 'data/models'
@@ -18,12 +19,13 @@ export default function AuctionPageView({
   auctionHighestBid,
   placeBid,
 }: AuctionPageViewType) {
+  const history = useHistory()
   const isBidEnabled = auctionState !== AuctionStateEnum.Canceled
 
   return (
     <S.Wrapper>
-      <S.LeftSide>
-        BACK
+      <S.LeftSide onClick={() => history.goBack()}>
+        <span>BACK</span>
         <S.AuctionImage src='https://picsum.photos/260' />
       </S.LeftSide>
       <S.RightSide>

@@ -9,19 +9,17 @@ export default function useAuctionContract(auctionAddress) {
   const { account, web3 } = useWeb3()
   const [auctionContract, setAuctionContract] = useState(null)
   const [auctionHighestBid, setauctionHighestBid] = useState<string>('0')
-  const [auctioOwner, setAuctionOwner] = useState<string>('')
+  const [auctionOwner, setAuctionOwner] = useState<string>('')
   const [auctionState, setAuctionState] = useState<AuctionStateEnum>()
   const [auctionBids, setAuctionBids] = useState<number[]>()
+
   // const [auctionBlocks, setAuctionBlocks] = useState(0)
 
-  // useEffect(() => {
-  //   const getCurrentBlock = async () => {
-  //     console.log('uno', await web3.eth.getBlockNumber())
-  //   }
-  //   getCurrentBlock()
-  // }, [web3])
-
   // const [auctionStateChangeEvent, setAuctionStateChangeEvent] = useState()
+
+  const cancelAuction = async () => {
+    await auctionContract.methods.cancelAuction().send({ from: account })
+  }
 
   useEffect(() => {
     const fetchContractData = async () => {
@@ -75,9 +73,10 @@ export default function useAuctionContract(auctionAddress) {
 
   return {
     auctionContract,
-    auctioOwner,
+    auctionOwner,
     auctionHighestBid,
     auctionState,
     auctionBids,
+    cancelAuction,
   }
 }

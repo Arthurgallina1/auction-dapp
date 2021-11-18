@@ -25,6 +25,10 @@ export const LeftSide = styled.div`
   flex-direction: column;
   align-items: center;
   width: 300px;
+
+  span {
+    cursor: pointer;
+  }
 `
 export const RightSide = styled.div`
   padding: 10px 25px;

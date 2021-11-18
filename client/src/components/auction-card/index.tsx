@@ -2,30 +2,39 @@ import Badge from 'components/badge'
 import { useHistory } from 'react-router-dom'
 import { RiAuctionFill } from 'react-icons/ri'
 import { AiOutlineHeart } from 'react-icons/ai'
-import { AuctionStateEnum } from 'data/models'
 import * as S from './styled'
+import useAuctionContract from 'hooks/useAuctionContract'
 
 type AuctionCardType = {
-  name: string
-  currentBid: number
-  user: string
-  status: AuctionStateEnum
   address: string
 }
 
-export default function AuctionCard({
-  name,
-  currentBid,
-  user,
-  status = AuctionStateEnum.Canceled,
-  address,
-}: AuctionCardType): JSX.Element {
+export default function AuctionCard({ address }: AuctionCardType): JSX.Element {
   const history = useHistory()
-  const showAuctionState = true //status === AuctionStateEnum.Canceled
+  const { auctionOwner, auctionState, auctionHighestBid } = useAuctionContract(
+    address,
+  )
+
   const onCardClick = () => {
     history.push(`/auction/${address}`)
   }
 
+  return (
+    <AuctionCardView
+      onCardClick={onCardClick}
+      auctionOwner={auctionOwner}
+      auctionHighestBid={auctionHighestBid}
+      auctionState={auctionState}
+    />
+  )
+}
+
+const AuctionCardView = ({
+  onCardClick,
+  auctionOwner,
+  auctionHighestBid,
+  auctionState,
+}) => {
   return (
     <S.Container onClick={onCardClick}>
       <S.UpperInfo>
@@ -47,17 +56,18 @@ export default function AuctionCard({
 
       <S.BottomInfo>
         <S.Upperbox>
-          <S.AuctionTitle>{name}</S.AuctionTitle>
+          <S.AuctionTitle>{auctionOwner.slice(0, 5)}</S.AuctionTitle>
           <div>
-            <small>By</small> <S.UserTitle href='/'>{address}</S.UserTitle>
+            <small>By</small>{' '}
+            <S.UserTitle href='/'>{auctionOwner.slice(0, 10)}</S.UserTitle>
           </div>
         </S.Upperbox>
         <S.Lowerbox>
           <p>
-            ETH <strong>{currentBid}</strong>
+            ETH <strong>{auctionHighestBid}</strong>
           </p>
           <br />
-          {showAuctionState && <span>Auction {status}</span>}
+          <span>Auction {auctionState}</span>
         </S.Lowerbox>
       </S.BottomInfo>
     </S.Container>

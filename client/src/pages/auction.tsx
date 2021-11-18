@@ -11,13 +11,14 @@ export default function AuctionPage() {
   const {
     auctionContract,
     auctionHighestBid,
-    auctioOwner,
+    auctionOwner,
     auctionState,
     auctionBids,
+    cancelAuction,
   } = useAuctionContract(auctionAddress)
 
   const isCancelled = auctionState === AuctionStateEnum.Canceled
-  const isUserOwner = auctioOwner === account
+  const isUserOwner = auctionOwner === account
 
   // const [auctionBids, setAuctionBids] = useState([])
 
@@ -67,13 +68,9 @@ export default function AuctionPage() {
     }
   }
 
-  const cancelAuction = async () => {
-    await auctionContract.methods.cancelAuction().send({ from: account })
-  }
-
   return (
     <div>
-      Auction Owner: {auctioOwner}
+      Auction Owner: {auctionOwner}
       <AuctionPageView
         name={auctionAddress}
         auctionState={auctionState}
