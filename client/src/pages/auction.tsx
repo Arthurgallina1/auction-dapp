@@ -77,6 +77,7 @@ export default function AuctionPage() {
         bids={auctionBids}
         placeBid={placeBid}
         auctionHighestBid={auctionHighestBid}
+        isUserOwner={isUserOwner}
       />
       {!isCancelled && isUserOwner && (
         <Button onClick={cancelAuction}>Cancel Auction</Button>

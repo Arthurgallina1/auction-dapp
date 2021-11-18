@@ -9,6 +9,7 @@ type AuctionPageViewType = {
   auctionState: AuctionStateEnum
   name: string
   auctionHighestBid: string
+  isUserOwner: boolean
   placeBid: (amount: number) => void
 }
 
@@ -17,10 +18,12 @@ export default function AuctionPageView({
   auctionState,
   name,
   auctionHighestBid,
+  isUserOwner,
   placeBid,
 }: AuctionPageViewType) {
   const history = useHistory()
-  const isBidEnabled = auctionState !== AuctionStateEnum.Canceled
+  const isBidDisabled =
+    auctionState === AuctionStateEnum.Canceled || isUserOwner
 
   return (
     <S.Wrapper>
@@ -39,7 +42,7 @@ export default function AuctionPageView({
         </S.TitleBox>
         <S.OfferWrapper>
           <HighestOfferCard
-            isBidEnabled={isBidEnabled}
+            isBidDisabled={isBidDisabled}
             placeBid={placeBid}
             auctionHighestBid={auctionHighestBid}
           />

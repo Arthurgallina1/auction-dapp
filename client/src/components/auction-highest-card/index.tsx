@@ -3,13 +3,13 @@ import EthSVG from 'components/svgs/eth'
 import * as S from './styles'
 
 type HighestOfferCardType = {
-  isBidEnabled: boolean
+  isBidDisabled: boolean
   auctionHighestBid: string
   placeBid: (value: number) => void
 }
 
 export default function HighestOfferCard({
-  isBidEnabled = false,
+  isBidDisabled = true,
   placeBid,
   auctionHighestBid,
 }: HighestOfferCardType) {
@@ -19,7 +19,7 @@ export default function HighestOfferCard({
       <S.PriceBox>
         <EthSVG /> <strong>{auctionHighestBid}</strong> ETH
       </S.PriceBox>
-      {isBidEnabled ? (
+      {!isBidDisabled ? (
         <Button onClick={() => placeBid(200)}>Place Bid</Button>
       ) : (
         <h4>Bid not available</h4>

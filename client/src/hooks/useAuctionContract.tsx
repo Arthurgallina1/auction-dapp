@@ -8,10 +8,10 @@ import { AuctionState, AuctionStateEnum } from 'data/models'
 export default function useAuctionContract(auctionAddress) {
   const { account, web3 } = useWeb3()
   const [auctionContract, setAuctionContract] = useState(null)
-  const [auctionHighestBid, setauctionHighestBid] = useState<string>('0')
+  const [auctionHighestBid, setAuctionHighestBid] = useState<string>('0')
   const [auctionOwner, setAuctionOwner] = useState<string>('')
   const [auctionState, setAuctionState] = useState<AuctionStateEnum>()
-  const [auctionBids, setAuctionBids] = useState<number[]>()
+  const [auctionBids, setAuctionBids] = useState<number[]>([])
 
   // const [auctionBlocks, setAuctionBlocks] = useState(0)
 
@@ -22,36 +22,8 @@ export default function useAuctionContract(auctionAddress) {
   }
 
   useEffect(() => {
-    const fetchContractData = async () => {
-      if (!auctionContract) return
-      const highestBid = await auctionContract.methods
-        .highestBindingBid()
-        .call()
-      setauctionHighestBid(highestBid)
-
-      const owner = await auctionContract.methods.owner().call()
-      setAuctionOwner(owner)
-
-      const auctionState = await auctionContract.methods.auctionState().call()
-      setAuctionState(AuctionState[auctionState])
-
-      const auctionBids = await auctionContract.methods.getBids().call()
-      setAuctionBids(auctionBids)
-
-      const auctionStartBlock = await auctionContract.methods
-        .startBlock()
-        .call()
-      console.log('auctionStartBlock', auctionStartBlock)
-
-      const auctionEndBlock = await auctionContract.methods.endBlock().call()
-      console.log('auctionEndBlock', auctionEndBlock)
-    }
-
-    fetchContractData()
-  }, [auctionContract])
-
-  useEffect(() => {
     const runWeb3 = async () => {
+      console.log('run web 3 on')
       try {
         if (web3 && account) {
           const instance = new web3.eth.Contract(
@@ -70,6 +42,69 @@ export default function useAuctionContract(auctionAddress) {
 
     runWeb3()
   }, [web3, account, auctionAddress])
+
+  useEffect(() => {
+    const fetchContractData = async () => {
+      if (!auctionContract) return
+      const highestBid = await auctionContract.methods
+        .highestBindingBid()
+        .call()
+      setAuctionHighestBid(highestBid)
+
+      const owner = await auctionContract.methods.owner().call()
+      setAuctionOwner(owner)
+
+      const auctionState = await auctionContract.methods.auctionState().call()
+      setAuctionState(AuctionState[auctionState])
+
+      const auctionBids = await auctionContract.methods.getBids().call()
+      setAuctionBids(auctionBids)
+
+      const auctionStartBlock = await auctionContract.methods
+        .startBlock()
+        .call()
+      // console.log('auctionStartBlock', auctionStartBlock)
+
+      const auctionEndBlock = await auctionContract.methods.endBlock().call()
+      // console.log('auctionEndBlock', auctionEndBlock)
+    }
+
+    fetchContractData()
+    if (!auctionContract) return
+    auctionContract.events
+      .AuctionStateChange({})
+      .on('data', function (event) {
+        const { auctionState } = event.returnValues
+        setAuctionState(AuctionState[auctionState])
+      })
+      .on('changed', function (event) {
+        console.debug('event changed', event)
+
+        // remove event from local database
+      })
+      .on('error', console.error)
+
+    auctionContract.events
+      .BidPlaced({})
+      .on('data', function (event) {
+        console.log('bid place event', event) // same results as the optional callback above
+        const { value } = event.returnValues
+        setAuctionBids((oldAuctionBids) => {
+          console.log('oldAuctionBids', oldAuctionBids)
+          return [...oldAuctionBids, value]
+        })
+        setAuctionHighestBid(value)
+      })
+      .on('changed', function (event) {
+        console.debug('event changed', event)
+        // remove event from local database
+      })
+      .on('error', console.error)
+  }, [auctionContract])
+
+  useEffect(() => {
+    console.debug('auctionContract', auctionContract)
+  }, [auctionContract])
 
   return {
     auctionContract,
