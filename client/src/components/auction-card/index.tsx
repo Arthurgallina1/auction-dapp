@@ -21,7 +21,7 @@ export default function AuctionCard({
   address,
 }: AuctionCardType): JSX.Element {
   const history = useHistory()
-  const showAuctionState = status === AuctionStateEnum.Canceled
+  const showAuctionState = true //status === AuctionStateEnum.Canceled
   const onCardClick = () => {
     history.push(`/auction/${address}`)
   }

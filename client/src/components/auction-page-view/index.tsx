@@ -7,6 +7,7 @@ type AuctionPageViewType = {
   bids: any
   auctionState: AuctionStateEnum
   name: string
+  auctionHighestBid: string
   placeBid: (amount: number) => void
 }
 
@@ -14,6 +15,7 @@ export default function AuctionPageView({
   bids,
   auctionState,
   name,
+  auctionHighestBid,
   placeBid,
 }: AuctionPageViewType) {
   return (
@@ -32,7 +34,10 @@ export default function AuctionPageView({
           <S.Subtitle>Last day 30/05</S.Subtitle>
         </S.TitleBox>
         <S.OfferWrapper>
-          <HighestOfferCard placeBid={placeBid} />
+          <HighestOfferCard
+            placeBid={placeBid}
+            auctionHighestBid={auctionHighestBid}
+          />
         </S.OfferWrapper>
         <S.OfferWrapper>
           <Offers bids={bids} />

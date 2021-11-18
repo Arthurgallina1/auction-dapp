@@ -1,6 +1,5 @@
 import AuctionCard from 'components/auction-card'
 import * as S from './styles'
-import { AuctionStateEnum } from 'data/models'
 import AuctionSVG from 'components/svgs/auction-subtitle'
 import useAuctionCreator from 'hooks/useAuctionCreator'
 import { useEffect, useState } from 'react'
@@ -10,31 +9,7 @@ const auctionsCardsData = [
     name: 'Kenobi v1',
     currentBid: 3,
     user: 'General',
-    status: AuctionStateEnum.Canceled,
-  },
-  {
-    name: 'Kenobi v1',
-    currentBid: 3,
-    user: 'General',
-    status: AuctionStateEnum.Ended,
-  },
-  {
-    name: 'Kenobi v1',
-    currentBid: 3,
-    user: 'General',
-    status: AuctionStateEnum.Running,
-  },
-  {
-    name: 'Kenobi v1',
-    currentBid: 3,
-    user: 'General',
-    status: AuctionStateEnum.Started,
-  },
-  {
-    name: 'Kenobi v1',
-    currentBid: 3,
-    user: 'General',
-    status: AuctionStateEnum.Canceled,
+    status: 'Missing',
   },
 ]
 
@@ -49,7 +24,6 @@ export default function AuctionSection() {
       ...auctionsCardsData[0],
     }))
     setFormattedAuctions(auctionsWithAddress)
-    console.log('o123', auctionsWithAddress)
   }, [auctions])
 
   return (

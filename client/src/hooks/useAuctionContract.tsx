@@ -7,14 +7,38 @@ import { AuctionState, AuctionStateEnum } from 'data/models'
 export default function useAuctionContract(address) {
   const { account, web3 } = useWeb3()
   const [auctionContract, setAuctionContract] = useState(null)
-  console.log('auction', address)
+  const [auctionHighestBid, setauctionHighestBid] = useState<string>('0')
+  const [auctioOwner, setAuctionOwner] = useState<string>('')
+  const [auctionState, setAuctionState] = useState<AuctionStateEnum>()
   // const [auctionStateChangeEvent, setAuctionStateChangeEvent] = useState()
 
-  const getAuctionState = async (): Promise<AuctionStateEnum> => {
-    if (!auctionContract) return
-    const auctionState = await auctionContract.methods.auctionState().call()
-    return AuctionState[auctionState]
-  }
+  useEffect(() => {
+    const getHighestBiding = async () => {
+      if (!auctionContract) return
+      const highestBid = await auctionContract.methods
+        .highestBindingBid()
+        .call()
+      setauctionHighestBid(highestBid)
+      // return highestBid
+    }
+
+    const getOwner = async () => {
+      if (!auctionContract) return
+      const owner = await auctionContract.methods.owner().call()
+      console.log(owner)
+      setAuctionOwner(owner)
+    }
+
+    const getAuctionState = async (): Promise<AuctionStateEnum> => {
+      if (!auctionContract) return
+      const auctionState = await auctionContract.methods.auctionState().call()
+      setAuctionState(AuctionState[auctionState])
+    }
+
+    getAuctionState()
+    getHighestBiding()
+    getOwner()
+  }, [auctionContract])
 
   useEffect(() => {
     const runWeb3 = async () => {
@@ -38,5 +62,5 @@ export default function useAuctionContract(address) {
     runWeb3()
   }, [web3, account])
 
-  return { auctionContract, getAuctionState }
+  return { auctionContract, auctioOwner, auctionHighestBid, auctionState }
 }

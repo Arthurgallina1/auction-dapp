@@ -36,7 +36,6 @@ export default function useAuctionCreator() {
             AuctionCreator.abi,
             deployedNetwork && deployedNetwork.address,
           )
-          console.log('setado')
           setAuctionCreatorInstance(instance)
         }
       } catch (error) {

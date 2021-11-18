@@ -25,13 +25,13 @@ contract Auction {
     uint256 bidIncrement;
 
     event AuctionStateChange(State auctionState);
-    event BidPlaced(uint value, address _address);
+    event BidPlaced(uint256 value, address _address);
 
     constructor(address EOA) {
         owner = payable(EOA);
         auctionState = State.Running;
         startBlock = block.number;
-        endBlock = startBlock + 3;
+        endBlock = startBlock + 10;
         ipfsHash = "";
         bidIncrement = 1000000000000000000;
     }

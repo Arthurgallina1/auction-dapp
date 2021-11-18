@@ -4,15 +4,22 @@ import { Button } from 'components'
 import AuctionPageView from 'components/auction-page-view'
 import useAuctionContract from 'hooks/useAuctionContract'
 import { useWeb3 } from 'context/web3.context'
-import { AuctionState, AuctionStateEnum } from 'data/models'
 
 export default function AuctionPage() {
   const { auction } = useParams()
   const { account, web3 } = useWeb3()
-  const { auctionContract, getAuctionState } = useAuctionContract(auction)
+  const {
+    auctionContract,
+    auctionHighestBid,
+    auctioOwner,
+    auctionState,
+  } = useAuctionContract(auction)
 
-  const [auctionState, setAuctionState] = useState<AuctionStateEnum>()
+  // const [auctionState, setAuctionState] = useState<AuctionStateEnum>()
   const [auctionBids, setAuctionBids] = useState([])
+
+  console.log('auctionHighestBid', auctionHighestBid)
+  // const [auctionHighestBid, setAuctionHighestBid] = useState<number>(2)
 
   useEffect(() => {
     const fetchContractData = async () => {
@@ -20,10 +27,11 @@ export default function AuctionPage() {
         if (web3 && account && auctionContract) {
           // const auctionState = await auctionContract.methods.auctionState().call()
           const auctionBids = await auctionContract.methods.getBids().call()
-          const auctionState = await getAuctionState()
-          console.log(auctionState)
+          // const auctionState = await getAuctionState()
+          // const auctionHighestBid = await getHighestBiding()
+          // setAuctionHighestBid(auctionHighestBid)
           setAuctionBids(auctionBids)
-          setAuctionState(auctionState)
+          // setAuctionState(auctionState)
         }
 
         //      deployedNetwork && deployedNetwork.address,
@@ -47,7 +55,7 @@ export default function AuctionPage() {
           console.log(event) // same results as the optional callback above
           const { auctionState } = event.returnValues
           console.debug('returned values', event.returnValues)
-          setAuctionState(AuctionState[auctionState])
+          // setAuctionState(AuctionState[auctionState])
         })
         .on('changed', function (event) {
           console.debug('event changed', event)
@@ -90,15 +98,17 @@ export default function AuctionPage() {
 
   return (
     <div>
+      Auction Owner: {auctioOwner}
       <AuctionPageView
         name={auction}
         auctionState={auctionState}
         bids={auctionBids}
         placeBid={placeBid}
+        auctionHighestBid={auctionHighestBid}
       />
       {/* <Button onClick={placeBid}>Place a bid</Button> */}
       <Button onClick={cancelAuction}>Cancel Auction</Button>
-      <Button onClick={getAuctionState}>Get status a bid</Button>
+      <Button>Get {auctionState} a bid</Button>
     </div>
   )
 }
