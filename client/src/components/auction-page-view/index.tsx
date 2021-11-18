@@ -18,6 +18,8 @@ export default function AuctionPageView({
   auctionHighestBid,
   placeBid,
 }: AuctionPageViewType) {
+  const isBidEnabled = auctionState !== AuctionStateEnum.Canceled
+
   return (
     <S.Wrapper>
       <S.LeftSide>
@@ -35,6 +37,7 @@ export default function AuctionPageView({
         </S.TitleBox>
         <S.OfferWrapper>
           <HighestOfferCard
+            isBidEnabled={isBidEnabled}
             placeBid={placeBid}
             auctionHighestBid={auctionHighestBid}
           />

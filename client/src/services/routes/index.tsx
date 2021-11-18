@@ -11,7 +11,7 @@ export default function Routes() {
           <Home />
         </Layout>
       </Route>
-      <Route path='/auction/:auction'>
+      <Route path='/auction/:auctionAddress'>
         <Layout>
           <AuctionPage />
         </Layout>

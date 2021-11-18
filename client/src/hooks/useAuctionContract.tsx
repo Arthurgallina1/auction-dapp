@@ -3,51 +3,62 @@ import { useWeb3 } from '../context/web3.context'
 import Auction from '../contracts/Auction.json'
 import { AuctionState, AuctionStateEnum } from 'data/models'
 
-// TO DO: Move all fetching to contract and expose the state only
-export default function useAuctionContract(address) {
+// doing:  Move all fetching to contract and expose the state only
+// to do: move events here
+export default function useAuctionContract(auctionAddress) {
   const { account, web3 } = useWeb3()
   const [auctionContract, setAuctionContract] = useState(null)
   const [auctionHighestBid, setauctionHighestBid] = useState<string>('0')
   const [auctioOwner, setAuctionOwner] = useState<string>('')
   const [auctionState, setAuctionState] = useState<AuctionStateEnum>()
+  const [auctionBids, setAuctionBids] = useState<number[]>()
+  // const [auctionBlocks, setAuctionBlocks] = useState(0)
+
+  // useEffect(() => {
+  //   const getCurrentBlock = async () => {
+  //     console.log('uno', await web3.eth.getBlockNumber())
+  //   }
+  //   getCurrentBlock()
+  // }, [web3])
+
   // const [auctionStateChangeEvent, setAuctionStateChangeEvent] = useState()
 
   useEffect(() => {
-    const getHighestBiding = async () => {
+    const fetchContractData = async () => {
       if (!auctionContract) return
       const highestBid = await auctionContract.methods
         .highestBindingBid()
         .call()
       setauctionHighestBid(highestBid)
-      // return highestBid
-    }
 
-    const getOwner = async () => {
-      if (!auctionContract) return
       const owner = await auctionContract.methods.owner().call()
-      console.log(owner)
       setAuctionOwner(owner)
-    }
 
-    const getAuctionState = async (): Promise<AuctionStateEnum> => {
-      if (!auctionContract) return
       const auctionState = await auctionContract.methods.auctionState().call()
       setAuctionState(AuctionState[auctionState])
+
+      const auctionBids = await auctionContract.methods.getBids().call()
+      setAuctionBids(auctionBids)
+
+      const auctionStartBlock = await auctionContract.methods
+        .startBlock()
+        .call()
+      console.log('auctionStartBlock', auctionStartBlock)
+
+      const auctionEndBlock = await auctionContract.methods.endBlock().call()
+      console.log('auctionEndBlock', auctionEndBlock)
     }
 
-    getAuctionState()
-    getHighestBiding()
-    getOwner()
+    fetchContractData()
   }, [auctionContract])
 
   useEffect(() => {
     const runWeb3 = async () => {
       try {
         if (web3 && account) {
-          // Get the contract instance.
           const instance = new web3.eth.Contract(
             Auction.abi,
-            address, //deployedNetwork && deployedNetwork.address,
+            auctionAddress, //deployedNetwork && deployedNetwork.address,
           )
           setAuctionContract(instance)
         }
@@ -60,7 +71,13 @@ export default function useAuctionContract(address) {
     }
 
     runWeb3()
-  }, [web3, account])
+  }, [web3, account, auctionAddress])
 
-  return { auctionContract, auctioOwner, auctionHighestBid, auctionState }
+  return {
+    auctionContract,
+    auctioOwner,
+    auctionHighestBid,
+    auctionState,
+    auctionBids,
+  }
 }
