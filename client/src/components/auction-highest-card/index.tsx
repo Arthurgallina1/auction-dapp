@@ -20,7 +20,7 @@ export default function HighestOfferCard({
         <EthSVG /> <strong>{auctionHighestBid}</strong> ETH
       </S.PriceBox>
       {!isBidDisabled ? (
-        <Button onClick={() => placeBid(2300000000000000000)}>Place Bid</Button>
+        <Button onClick={() => placeBid(2000000)}>Place Bid</Button>
       ) : (
         <h4>Bid not available</h4>
       )}

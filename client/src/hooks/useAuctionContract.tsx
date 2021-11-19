@@ -35,13 +35,9 @@ export default function useAuctionContract(auctionAddress) {
 
   const finalizeAuction = async () => {
     try {
-      // if (auctionState !== AuctionStateEnum.Canceled) return
-      // if (addressLastBid === '0') return
-
-      const addressBid = await auctionContract.methods.finalizeAuction().send({
+      await auctionContract.methods.finalizeAuction().send({
         from: account,
       })
-      return addressBid
     } catch (err) {
       console.log(err)
     }
