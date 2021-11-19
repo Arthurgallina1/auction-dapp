@@ -9,6 +9,5 @@ export const BaseButton = styled.button`
   /* border: 1px solid ${({ theme }) => theme.colors.white}; */
   border: 0;
   padding: 0.5rem 1rem;
-  margin-bottom: 1rem;
   cursor: pointer;
 `

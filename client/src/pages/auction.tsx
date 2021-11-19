@@ -26,6 +26,7 @@ export default function AuctionPage() {
   return (
     <div>
       Auction Owner: {auctionOwner}
+      <br /> {isUserOwner && <span>Owner</span>}
       <AuctionPageView
         address={auctionAddress}
         auctionState={auctionState}
