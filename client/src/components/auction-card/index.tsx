@@ -25,6 +25,7 @@ export default function AuctionCard({ address }: AuctionCardType): JSX.Element {
       auctionOwner={auctionOwner}
       auctionHighestBid={auctionHighestBid}
       auctionState={auctionState}
+      address={address}
     />
   )
 }
@@ -34,6 +35,7 @@ const AuctionCardView = ({
   auctionOwner,
   auctionHighestBid,
   auctionState,
+  address,
 }) => {
   return (
     <S.Container onClick={onCardClick}>
@@ -56,7 +58,7 @@ const AuctionCardView = ({
 
       <S.BottomInfo>
         <S.Upperbox>
-          <S.AuctionTitle>{auctionOwner.slice(0, 5)}</S.AuctionTitle>
+          <S.AuctionTitle>{address.slice(0, 5)}</S.AuctionTitle>
           <div>
             <small>By</small>{' '}
             <S.UserTitle href='/'>{auctionOwner.slice(0, 10)}</S.UserTitle>

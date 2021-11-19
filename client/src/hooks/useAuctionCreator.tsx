@@ -5,25 +5,42 @@ import AuctionCreator from '../contracts/AuctionCreator.json'
 export default function useAuctionCreator() {
   const { account, web3 } = useWeb3()
   const [auctionCreatorInstance, setAuctionCreatorInstance] = useState(null)
-  const [auctions, setAuctions] = useState([])
+  const [auctions, setAuctions] = useState<any>([])
 
   const createAuction = async () => {
-    if (!auctionCreatorInstance) return
-    const auctionCreated = await auctionCreatorInstance.methods
-      .createAuction()
-      .send({ from: account })
-    return auctionCreated
+    try {
+      await auctionCreatorInstance.methods.createAuction().send({
+        from: account,
+      })
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   useEffect(() => {
-    const getAuctions = async () => {
+    const fetchData = async () => {
       if (!auctionCreatorInstance) return []
       const auctions = await auctionCreatorInstance.methods.getAuctions().call()
       setAuctions(auctions)
-      return auctions
     }
 
-    getAuctions()
+    fetchData()
+
+    if (!auctionCreatorInstance) return
+    auctionCreatorInstance.events
+      .AuctionCreated({})
+      .on('data', function (event) {
+        const { _auction } = event.returnValues
+        setAuctions((oldAuctions) => {
+          //workaround. to do check on duplications
+          return Array.from(new Set([...oldAuctions, _auction]))
+        })
+      })
+      .on('changed', function (event) {
+        // console.debug('event changed', event)
+        // remove event from local database
+      })
+      .on('error', console.error)
   }, [auctionCreatorInstance])
 
   useEffect(() => {

@@ -3,8 +3,6 @@ import { useWeb3 } from '../context/web3.context'
 import Auction from '../contracts/Auction.json'
 import { AuctionState, AuctionStateEnum } from 'data/models'
 
-// doing:  Move all fetching to contract and expose the state only
-// to do: move events here
 export default function useAuctionContract(auctionAddress) {
   const { account, web3 } = useWeb3()
   const [auctionContract, setAuctionContract] = useState(null)
