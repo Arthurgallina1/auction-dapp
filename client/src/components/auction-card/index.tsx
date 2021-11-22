@@ -4,6 +4,7 @@ import { RiAuctionFill } from 'react-icons/ri'
 import { AiOutlineHeart } from 'react-icons/ai'
 import * as S from './styled'
 import useAuctionContract from 'hooks/useAuctionContract'
+import { formatTimestampToDate } from 'utils/formatters'
 
 type AuctionCardType = {
   address: string
@@ -11,9 +12,12 @@ type AuctionCardType = {
 
 export default function AuctionCard({ address }: AuctionCardType): JSX.Element {
   const history = useHistory()
-  const { auctionOwner, auctionState, auctionHighestBid } = useAuctionContract(
-    address,
-  )
+  const {
+    auctionOwner,
+    auctionState,
+    auctionHighestBid,
+    auctionEndDate,
+  } = useAuctionContract(address)
 
   const onCardClick = () => {
     history.push(`/auction/${address}`)
@@ -24,6 +28,7 @@ export default function AuctionCard({ address }: AuctionCardType): JSX.Element {
       onCardClick={onCardClick}
       auctionOwner={auctionOwner}
       auctionHighestBid={auctionHighestBid}
+      auctionEndDate={auctionEndDate}
       auctionState={auctionState}
       address={address}
     />
@@ -34,6 +39,7 @@ const AuctionCardView = ({
   onCardClick,
   auctionOwner,
   auctionHighestBid,
+  auctionEndDate,
   auctionState,
   address,
 }) => {
@@ -69,7 +75,13 @@ const AuctionCardView = ({
             ETH <strong>{auctionHighestBid}</strong>
           </p>
           <br />
-          <span>Auction {auctionState}</span>
+          <span>
+            Auction <strong> {auctionState}</strong>
+          </span>
+          <span>
+            End date{' '}
+            <strong>{formatTimestampToDate(auctionEndDate) || 'TDB'}</strong>{' '}
+          </span>
         </S.Lowerbox>
       </S.BottomInfo>
     </S.Container>

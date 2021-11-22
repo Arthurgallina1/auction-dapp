@@ -13,6 +13,8 @@ export default function AuctionPage() {
     auctionOwner,
     auctionState,
     auctionBids,
+    auctionEndDate,
+    auctionStartDate,
     addressLastBid,
     cancelAuction,
     placeBid,

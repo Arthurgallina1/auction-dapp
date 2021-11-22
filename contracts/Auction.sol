@@ -4,8 +4,8 @@ pragma solidity >=0.7.0 <0.9.0;
 
 contract Auction {
     address payable public owner;
-    uint256 public startBlock;
-    uint256 public endBlock;
+    uint256 public startDate;
+    uint256 public endDate;
     string public ipfsHash;
 
     enum State {
@@ -31,8 +31,8 @@ contract Auction {
     constructor(address EOA) {
         owner = payable(EOA);
         auctionState = State.Running;
-        startBlock = block.number;
-        endBlock = startBlock + 3;
+        startDate = block.timestamp;
+        endDate = startDate + 604800;
         ipfsHash = "";
         bidIncrement = 1000000000000000000;
     }
@@ -48,12 +48,12 @@ contract Auction {
     }
 
     modifier afterStart() {
-        require(block.number >= startBlock);
+        require(block.timestamp >= startDate);
         _;
     }
 
     modifier beforeEnd() {
-        require(block.number <= endBlock);
+        require(block.timestamp <= endDate);
         _;
     }
 
@@ -71,7 +71,7 @@ contract Auction {
     }
 
     function finalizeAuction() public {
-        require(auctionState == State.Canceled || block.number > endBlock);
+        require(auctionState == State.Canceled || block.number > endDate);
         require(msg.sender == owner || bids[msg.sender] > 0);
 
         address payable recipient;

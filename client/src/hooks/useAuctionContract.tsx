@@ -10,6 +10,8 @@ export default function useAuctionContract(auctionAddress) {
   const [auctionOwner, setAuctionOwner] = useState<string>('')
   const [auctionState, setAuctionState] = useState<AuctionStateEnum>()
   const [auctionBids, setAuctionBids] = useState<number[]>([])
+  const [auctionStartDate, setAuctionStartDate] = useState(0)
+  const [auctionEndDate, setAuctionEndDate] = useState(0)
   const [addressLastBid, setAddressLastBid] = useState<string>('0')
 
   // const [auctionBlocks, setAuctionBlocks] = useState(0)
@@ -85,13 +87,11 @@ export default function useAuctionContract(auctionAddress) {
       const addressBid = await auctionContract.methods.bids(account).call()
       setAddressLastBid(addressBid)
 
-      const auctionStartBlock = await auctionContract.methods
-        .startBlock()
-        .call()
-      // console.log('auctionStartBlock', auctionStartBlock)
+      const auctionStartDate = await auctionContract.methods.startDate().call()
+      setAuctionStartDate(auctionStartDate)
 
-      const auctionEndBlock = await auctionContract.methods.endBlock().call()
-      // console.log('auctionEndBlock', auctionEndBlock)
+      const auctionEndDate = await auctionContract.methods.startDate().call()
+      setAuctionEndDate(auctionEndDate)
     }
 
     fetchContractData()
@@ -149,6 +149,8 @@ export default function useAuctionContract(auctionAddress) {
     auctionHighestBid,
     auctionState,
     auctionBids,
+    auctionStartDate,
+    auctionEndDate,
     addressLastBid,
     cancelAuction,
     placeBid,
