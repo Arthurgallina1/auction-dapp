@@ -1,5 +1,6 @@
 import { Button } from 'components'
 import EthSVG from 'components/svgs/eth'
+import { useState } from 'react'
 import * as S from './styles'
 
 type HighestOfferCardType = {
@@ -13,6 +14,12 @@ export default function HighestOfferCard({
   placeBid,
   auctionHighestBid,
 }: HighestOfferCardType) {
+  const [inputValue, setInputValue] = useState(0)
+
+  const onChange = (e) => {
+    setInputValue(e.target.value)
+  }
+
   return (
     <S.Container>
       <h3>Highest offer</h3>
@@ -20,7 +27,10 @@ export default function HighestOfferCard({
         <EthSVG /> <strong>{auctionHighestBid}</strong> ETH
       </S.PriceBox>
       {!isBidDisabled ? (
-        <Button onClick={() => placeBid(2000000)}>Place Bid</Button>
+        <>
+          <input onChange={onChange} value={inputValue} />
+          <Button onClick={() => placeBid(inputValue)}>Place Bid</Button>
+        </>
       ) : (
         <h4>Bid not available</h4>
       )}
