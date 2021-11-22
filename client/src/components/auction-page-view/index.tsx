@@ -24,8 +24,7 @@ export default function AuctionPageView({
   placeBid,
 }: AuctionPageViewType) {
   const history = useHistory()
-  const isBidDisabled =
-    auctionState === AuctionStateEnum.Canceled || isUserOwner
+  const isBidDisabled = auctionState !== AuctionStateEnum.Running || isUserOwner
 
   return (
     <S.Wrapper>

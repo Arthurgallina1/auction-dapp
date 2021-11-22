@@ -13,9 +13,10 @@ export default function AuctionSection() {
         <AuctionSVG />
       </S.TitleWrapper>
       <S.AuctionGrid style={{ marginBottom: 80 }}>
-        {auctions.map((auction) => (
-          <AuctionCard key={auction} address={auction} />
-        ))}
+        {auctions.map((auction) => {
+          console.log('auction', auction)
+          return <AuctionCard key={auction} address={auction} />
+        })}
       </S.AuctionGrid>
     </S.Wrapper>
   )
