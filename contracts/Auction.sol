@@ -15,12 +15,17 @@ contract Auction {
         Canceled
     }
 
+    struct Bid {
+        uint256 bid;
+        address payable bidder;
+    }
+
     State public auctionState;
 
     uint256 public highestBindingBid;
     address payable public highestBidder;
 
-    uint256[] public bidsArray;
+    Bid[] public bidsArray;
     mapping(address => uint256) public bids;
     uint256 bidIncrement;
 
@@ -105,7 +110,7 @@ contract Auction {
         emit AuctionFinalized(value, recipient);
     }
 
-    function getBids() public view returns (uint256[] memory) {
+    function getBids() public view returns (Bid[] memory) {
         return bidsArray;
     }
 
@@ -117,7 +122,12 @@ contract Auction {
         require(currentBid > highestBindingBid, "Bid not enough");
 
         bids[msg.sender] = currentBid;
-        bidsArray.push(currentBid);
+
+        Bid memory thisBid;
+        thisBid.bid = currentBid;
+        thisBid.bidder = payable(msg.sender);
+        // Bid thisBid = Bid(currentBid, msg.sender);
+        bidsArray.push(thisBid);
 
         if (currentBid <= bids[highestBidder]) {
             // your own bid

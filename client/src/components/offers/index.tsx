@@ -1,7 +1,7 @@
 import { Container } from '../auction-highest-card/styles'
 
 type OffersType = {
-  bids: any
+  bids: { value: number; address: string }[]
   addressLastBid: string
 }
 
@@ -13,24 +13,23 @@ export default function Offers({ bids = [], addressLastBid }: OffersType) {
         <thead>
           <tr>
             <td>Price</td>
-            <td>Expiration</td>
-            <td>Difference</td>
             <td>From</td>
           </tr>
         </thead>
-        {bids.length > 0 ? (
-          bids.map((bid) => (
-            <tr>
-              <td>{bid}</td>
-            </tr>
-          ))
-        ) : (
-          <tbody>
+        <tbody>
+          {bids.length > 0 ? (
+            bids.map((bid) => (
+              <tr key={bid.value}>
+                <td>{bid.value}</td>
+                <td>{bid.address}</td>
+              </tr>
+            ))
+          ) : (
             <tr>
               <td>No bids yet</td>
             </tr>
-          </tbody>
-        )}
+          )}
+        </tbody>
       </table>
     </Container>
   )

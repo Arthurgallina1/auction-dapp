@@ -4,4 +4,13 @@ const formatTimestampToDate = (timestamp) => {
   return format(new Date(timestamp * 1000), 'dd/MM/yyyy')
 }
 
-export { formatTimestampToDate }
+const formatAuctionBidsTuple = (tupleArray) => {
+  const formattedTuple = tupleArray.map(([value, address]) => ({
+    value,
+    address,
+  }))
+  console.debug('formattedTuple', formattedTuple)
+  return formattedTuple
+}
+
+export { formatTimestampToDate, formatAuctionBidsTuple }

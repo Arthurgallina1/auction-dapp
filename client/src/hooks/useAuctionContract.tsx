@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useWeb3 } from '../context/web3.context'
 import Auction from '../contracts/Auction.json'
 import { AuctionState, AuctionStateEnum } from 'data/models'
+import { formatAuctionBidsTuple } from 'utils/formatters'
 
 export default function useAuctionContract(auctionAddress) {
   const { account, web3 } = useWeb3()
@@ -47,7 +48,6 @@ export default function useAuctionContract(auctionAddress) {
 
   useEffect(() => {
     const runWeb3 = async () => {
-      console.log('run web 3 on')
       try {
         if (web3 && account) {
           const instance = new web3.eth.Contract(
@@ -82,7 +82,9 @@ export default function useAuctionContract(auctionAddress) {
       setAuctionState(AuctionState[auctionState])
 
       const auctionBids = await auctionContract.methods.getBids().call()
-      setAuctionBids(auctionBids)
+      const formattedAuctionBids = formatAuctionBidsTuple(auctionBids)
+      console.debug('formattedAuctionBids', formattedAuctionBids)
+      setAuctionBids(formattedAuctionBids)
 
       const addressBid = await auctionContract.methods.bids(account).call()
       setAddressLastBid(addressBid)
@@ -139,9 +141,9 @@ export default function useAuctionContract(auctionAddress) {
       .on('error', console.error)
   }, [auctionContract])
 
-  useEffect(() => {
-    console.debug('auctionContract', auctionContract)
-  }, [auctionContract])
+  // useEffect(() => {
+  //   console.debug('auctionContract', auctionContract)
+  // }, [auctionContract])
 
   return {
     auctionContract,
