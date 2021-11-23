@@ -30,7 +30,6 @@ export default function AuctionPage() {
     auctionState ===
       (AuctionStateEnum.Canceled || Date.now() / 1000 > auctionEndDate) &&
     (isUserOwner || hasAddressBid)
-  console.log('canAddressFinalizeAuction', canAddressFinalizeAuction)
 
   return (
     <div>

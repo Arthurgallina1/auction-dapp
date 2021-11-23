@@ -9,6 +9,10 @@ type HighestOfferCardType = {
   placeBid: (value: number) => void
 }
 
+//TODO: Add a slider instead of input
+//TODO: Add validation on value that can be bid
+//TODO: Improve component name
+
 export default function HighestOfferCard({
   isBidDisabled = true,
   placeBid,

@@ -113,11 +113,14 @@ export default function useAuctionContract(auctionAddress) {
     auctionContract.events
       .BidPlaced({})
       .on('data', function (event) {
-        console.log('bid place event', event) // same results as the optional callback above
-        const { value } = event.returnValues
+        // console.log('bid place event', event) // same results as the optional callback above
+        const { value, _address: address } = event.returnValues
+        //TODO: Improve how this is formatted
+        const [formattedAuctionBids] = formatAuctionBidsTuple([
+          [value, address],
+        ])
         setAuctionBids((oldAuctionBids) => {
-          console.log('oldAuctionBids', oldAuctionBids)
-          return [...oldAuctionBids, value]
+          return [...oldAuctionBids, formattedAuctionBids]
         })
         setAuctionHighestBid(value)
       })
@@ -131,6 +134,7 @@ export default function useAuctionContract(auctionAddress) {
       .AuctionFinalized({})
       .on('data', function (event) {
         const { value, _address } = event.returnValues
+        setAddressLastBid('0')
         console.log('auction finalized', { value, _address })
       })
       .on('changed', function (event) {
