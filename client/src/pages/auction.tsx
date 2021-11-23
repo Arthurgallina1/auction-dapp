@@ -25,6 +25,13 @@ export default function AuctionPage() {
   const isUserOwner = auctionOwner === account
   const hasAddressBid = addressLastBid !== '0'
 
+  const canAddressCancelAuction = isUserOwner && !isCancelled
+  const canAddressFinalizeAuction =
+    auctionState ===
+      (AuctionStateEnum.Canceled || Date.now() / 1000 > auctionEndDate) &&
+    (isUserOwner || hasAddressBid)
+  console.log('canAddressFinalizeAuction', canAddressFinalizeAuction)
+
   return (
     <div>
       Auction Owner: {auctionOwner}
@@ -37,11 +44,15 @@ export default function AuctionPage() {
         auctionHighestBid={auctionHighestBid}
         isUserOwner={isUserOwner}
         addressLastBid={addressLastBid}
+        auctionStartDate={auctionStartDate}
+        auctionEndDate={auctionEndDate}
       />
-      {!isCancelled && isUserOwner && (
+      {canAddressCancelAuction && (
         <Button onClick={cancelAuction}>Cancel Auction</Button>
       )}
-      <Button onClick={finalizeAuction}>Finalize Auction</Button>
+      {canAddressFinalizeAuction && (
+        <Button onClick={finalizeAuction}>Finalize Auction</Button>
+      )}
     </div>
   )
 }

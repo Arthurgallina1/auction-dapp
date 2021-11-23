@@ -3,6 +3,7 @@ import HighestOfferCard from 'components/auction-highest-card'
 import Offers from 'components/offers'
 import { AuctionStateEnum } from 'data/models'
 import * as S from './styles'
+import { formatTimestampToDate } from 'utils/formatters'
 
 type AuctionPageViewType = {
   bids: any
@@ -11,6 +12,8 @@ type AuctionPageViewType = {
   auctionHighestBid: string
   isUserOwner: boolean
   addressLastBid: string
+  auctionStartDate: number
+  auctionEndDate: number
   placeBid: (amount: number) => void
 }
 
@@ -21,6 +24,8 @@ export default function AuctionPageView({
   auctionHighestBid,
   isUserOwner,
   addressLastBid,
+  auctionStartDate,
+  auctionEndDate,
   placeBid,
 }: AuctionPageViewType) {
   const history = useHistory()
@@ -38,8 +43,12 @@ export default function AuctionPageView({
             <h3>Auction {address}</h3>
             <h5>State {auctionState}</h5>
           </S.TitleWrapper>
-          <S.Subtitle>First day 25/05</S.Subtitle>
-          <S.Subtitle>Last day 30/05</S.Subtitle>
+          <S.Subtitle>
+            Auction started on {formatTimestampToDate(auctionStartDate)}
+          </S.Subtitle>
+          <S.Subtitle>
+            Auction ends on {formatTimestampToDate(auctionEndDate)}
+          </S.Subtitle>
         </S.TitleBox>
         <S.OfferWrapper>
           <HighestOfferCard

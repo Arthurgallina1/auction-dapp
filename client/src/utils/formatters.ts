@@ -9,7 +9,6 @@ const formatAuctionBidsTuple = (tupleArray) => {
     value,
     address,
   }))
-  console.debug('formattedTuple', formattedTuple)
   return formattedTuple
 }
 

@@ -83,7 +83,6 @@ export default function useAuctionContract(auctionAddress) {
 
       const auctionBids = await auctionContract.methods.getBids().call()
       const formattedAuctionBids = formatAuctionBidsTuple(auctionBids)
-      console.debug('formattedAuctionBids', formattedAuctionBids)
       setAuctionBids(formattedAuctionBids)
 
       const addressBid = await auctionContract.methods.bids(account).call()
@@ -92,7 +91,7 @@ export default function useAuctionContract(auctionAddress) {
       const auctionStartDate = await auctionContract.methods.startDate().call()
       setAuctionStartDate(auctionStartDate)
 
-      const auctionEndDate = await auctionContract.methods.startDate().call()
+      const auctionEndDate = await auctionContract.methods.endDate().call()
       setAuctionEndDate(auctionEndDate)
     }
 

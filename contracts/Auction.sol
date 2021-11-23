@@ -76,7 +76,7 @@ contract Auction {
     }
 
     function finalizeAuction() public {
-        require(auctionState == State.Canceled || block.number > endDate);
+        require(auctionState == State.Canceled || block.timestamp > endDate);
         require(msg.sender == owner || bids[msg.sender] > 0);
 
         address payable recipient;
@@ -126,7 +126,6 @@ contract Auction {
         Bid memory thisBid;
         thisBid.bid = currentBid;
         thisBid.bidder = payable(msg.sender);
-        // Bid thisBid = Bid(currentBid, msg.sender);
         bidsArray.push(thisBid);
 
         if (currentBid <= bids[highestBidder]) {
